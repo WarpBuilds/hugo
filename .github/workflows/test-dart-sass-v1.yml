@@ -15,10 +15,10 @@ jobs:
     strategy:
       matrix:
         go-version: [1.22.x]
-        os: ['warp-ubuntu-latest-x64-4x']
+        os: ['warp-ubuntu-latest-x64-32x']
     runs-on: ${{ matrix.os }}
     steps:
-      - if: matrix.os == 'ubuntu-latest' || matrix.os == 'warp-ubuntu-latest-x64-4x'
+      - if: matrix.os == 'ubuntu-latest' || matrix.os == 'warp-ubuntu-latest-x64-4x' || 'warp-ubuntu-latest-x64-32x'
         name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         with:
@@ -59,7 +59,7 @@ jobs:
         run: |
           pip install docutils
           rst2html --version
-      - if: matrix.os == 'ubuntu-latest' || matrix.os == 'warp-ubuntu-latest-x64-4x'
+      - if: matrix.os == 'ubuntu-latest' || matrix.os == 'warp-ubuntu-latest-x64-4x' || 'warp-ubuntu-latest-x64-32x'
         name: Install pandoc on Linux
         run: |
           sudo apt-get update -y
