@@ -10,7 +10,7 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-    runs-on: ubuntu-latest
+    runs-on: 'warp-ubuntu-latest-x64-4x'
     steps:
       - uses: dessant/lock-threads@08e671be8ac8944d0e132aa71d0ae8ccfb347675
         with:
