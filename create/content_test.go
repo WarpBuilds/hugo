@@ -85,7 +85,7 @@ func TestNewContentFromFile(t *testing.T) {
 			conf := testconfig.GetTestConfigs(fs.Source, cfg)
 			h, err := hugolib.NewHugoSites(deps.DepsCfg{Configs: conf, Fs: fs})
 			c.Assert(err, qt.IsNil)
-			err = create.NewContent(h, cas.kind, cas.path, false)
+			err = create.NewContent(h, false, cas.kind, cas.path)
 
 			if b, ok := cas.expected.(bool); ok && !b {
 				if !b {
@@ -140,19 +140,19 @@ site RegularPages: {{ len site.RegularPages  }}
 	c.Assert(err, qt.IsNil)
 	c.Assert(len(h.Sites), qt.Equals, 2)
 
-	c.Assert(create.NewContent(h, "my-bundle", "post/my-post", false), qt.IsNil)
+	c.Assert(create.NewContent(h, false, "my-bundle", "post/my-post"), qt.IsNil)
 	cContains(c, readFileFromFs(t, fs.Source, filepath.Join("content", "post/my-post/index.md")), `site RegularPages: 10`)
 
 	// Default bundle archetype
-	c.Assert(create.NewContent(h, "", "post/my-post2", false), qt.IsNil)
+	c.Assert(create.NewContent(h, false, "", "post/my-post2"), qt.IsNil)
 	cContains(c, readFileFromFs(t, fs.Source, filepath.Join("content", "post/my-post2/index.md")), `default archetype index.md`)
 
 	// Regular file with bundle kind.
-	c.Assert(create.NewContent(h, "my-bundle", "post/foo.md", false), qt.IsNil)
+	c.Assert(create.NewContent(h, false, "my-bundle", "post/foo.md"), qt.IsNil)
 	cContains(c, readFileFromFs(t, fs.Source, filepath.Join("content", "post/foo.md")), `draft: true`)
 
 	// Regular files should fall back to the default archetype (we have no regular file archetype).
-	c.Assert(create.NewContent(h, "my-bundle", "mypage.md", false), qt.IsNil)
+	c.Assert(create.NewContent(h, false, "my-bundle", "mypage.md"), qt.IsNil)
 	cContains(c, readFileFromFs(t, fs.Source, filepath.Join("content", "mypage.md")), `draft: true`)
 }
 

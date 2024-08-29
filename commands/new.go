@@ -57,7 +57,7 @@ Ensure you run this within the root directory of your site.`,
 					if err != nil {
 						return err
 					}
-					return create.NewContent(h, contentType, args[0], force)
+					return create.NewContent(h, force, contentType, args[0])
 				},
 				withc: func(cmd *cobra.Command, r *rootCommand) {
 					cmd.ValidArgsFunction = func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
