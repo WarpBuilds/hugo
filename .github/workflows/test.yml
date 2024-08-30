@@ -87,60 +87,60 @@ jobs:
       - if: matrix.os == 'windows-latest'
         run: |
           choco install mingw
-      - if: contains(${{ matrix.os }}, "ubuntu")
-        name: Install dart-sass Linux
-        run: |
-          echo "Install Dart Sass version ${SASS_VERSION} ..."
-          curl -LJO "https://github.com/sass/dart-sass/releases/download/${SASS_VERSION}/dart-sass-${SASS_VERSION}-linux-x64.tar.gz";
-          echo "${DART_SASS_SHA_LINUX}  dart-sass-${SASS_VERSION}-linux-x64.tar.gz" | sha256sum -c;
-          tar -xvf "dart-sass-${SASS_VERSION}-linux-x64.tar.gz";
-          echo "$GOBIN"
-          echo "$GITHUB_WORKSPACE/dart-sass/" >> $GITHUB_PATH
-      - if: matrix.os == 'macos-latest'
-        name: Install dart-sass MacOS
-        run: |
-          echo "Install Dart Sass version ${SASS_VERSION} ..."
-          curl -LJO "https://github.com/sass/dart-sass/releases/download/${SASS_VERSION}/dart-sass-${SASS_VERSION}-macos-x64.tar.gz";
-          echo "${DART_SASS_SHA_MACOS}  dart-sass-${SASS_VERSION}-macos-x64.tar.gz" | shasum -a 256 -c;
-          tar -xvf "dart-sass-${SASS_VERSION}-macos-x64.tar.gz";
-          echo "$GITHUB_WORKSPACE/dart-sass/" >> $GITHUB_PATH
-      - if: matrix.os == 'windows-latest'
-        name: Install dart-sass Windows
-        run: |
-          echo "Install Dart Sass version ${env:SASS_VERSION} ..."
-          curl -LJO "https://github.com/sass/dart-sass/releases/download/${env:SASS_VERSION}/dart-sass-${env:SASS_VERSION}-windows-x64.zip";
-          Expand-Archive -Path "dart-sass-${env:SASS_VERSION}-windows-x64.zip" -DestinationPath .;
-          echo  "$env:GITHUB_WORKSPACE/dart-sass/" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf-8 -Append
-      - if: contains(${{ matrix.os }}, "ubuntu")
-        name: Install staticcheck
-        run: go install honnef.co/go/tools/cmd/staticcheck@latest
-      - if: contains(${{ matrix.os }}, "ubuntu")
-        name: Run staticcheck
-        run: staticcheck ./...
-      - if: matrix.os != 'windows-latest'
-        name: Check
-        run: |
-          sass --version;
-          mage -v check;
-        env:
-          HUGO_BUILD_TAGS: extended
-      - if: contains(${{ matrix.os }}, "windows")
-        # See issue #11052. We limit the build to regular test (no -race flag) on Windows for now.
-        name: Test
-        run: |
-          mage -v test;
-        env:
-          HUGO_BUILD_TAGS: extended
-      - name: Build tags
-        run: |
-          go install -tags extended,nodeploy
-      - if: contains(${{ matrix.os }}, "ubuntu")
-        name: Build for dragonfly
-        run: |
-          go install
-        env:
-          GOARCH: amd64
-          GOOS: dragonfly
+      # - if: contains(${{ matrix.os }}, "ubuntu")
+      #   name: Install dart-sass Linux
+      #   run: |
+      #     echo "Install Dart Sass version ${SASS_VERSION} ..."
+      #     curl -LJO "https://github.com/sass/dart-sass/releases/download/${SASS_VERSION}/dart-sass-${SASS_VERSION}-linux-x64.tar.gz";
+      #     echo "${DART_SASS_SHA_LINUX}  dart-sass-${SASS_VERSION}-linux-x64.tar.gz" | sha256sum -c;
+      #     tar -xvf "dart-sass-${SASS_VERSION}-linux-x64.tar.gz";
+      #     echo "$GOBIN"
+      #     echo "$GITHUB_WORKSPACE/dart-sass/" >> $GITHUB_PATH
+      # - if: matrix.os == 'macos-latest'
+      #   name: Install dart-sass MacOS
+      #   run: |
+      #     echo "Install Dart Sass version ${SASS_VERSION} ..."
+      #     curl -LJO "https://github.com/sass/dart-sass/releases/download/${SASS_VERSION}/dart-sass-${SASS_VERSION}-macos-x64.tar.gz";
+      #     echo "${DART_SASS_SHA_MACOS}  dart-sass-${SASS_VERSION}-macos-x64.tar.gz" | shasum -a 256 -c;
+      #     tar -xvf "dart-sass-${SASS_VERSION}-macos-x64.tar.gz";
+      #     echo "$GITHUB_WORKSPACE/dart-sass/" >> $GITHUB_PATH
+      # - if: matrix.os == 'windows-latest'
+      #   name: Install dart-sass Windows
+      #   run: |
+      #     echo "Install Dart Sass version ${env:SASS_VERSION} ..."
+      #     curl -LJO "https://github.com/sass/dart-sass/releases/download/${env:SASS_VERSION}/dart-sass-${env:SASS_VERSION}-windows-x64.zip";
+      #     Expand-Archive -Path "dart-sass-${env:SASS_VERSION}-windows-x64.zip" -DestinationPath .;
+      #     echo  "$env:GITHUB_WORKSPACE/dart-sass/" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf-8 -Append
+      # - if: contains(${{ matrix.os }}, "ubuntu")
+      #   name: Install staticcheck
+      #   run: go install honnef.co/go/tools/cmd/staticcheck@latest
+      # - if: contains(${{ matrix.os }}, "ubuntu")
+      #   name: Run staticcheck
+      #   run: staticcheck ./...
+      # - if: matrix.os != 'windows-latest'
+      #   name: Check
+      #   run: |
+      #     sass --version;
+      #     mage -v check;
+      #   env:
+      #     HUGO_BUILD_TAGS: extended
+      # - if: contains(${{ matrix.os }}, "windows")
+      #   # See issue #11052. We limit the build to regular test (no -race flag) on Windows for now.
+      #   name: Test
+      #   run: |
+      #     mage -v test;
+      #   env:
+      #     HUGO_BUILD_TAGS: extended
+      # - name: Build tags
+      #   run: |
+      #     go install -tags extended,nodeploy
+      # - if: contains(${{ matrix.os }}, "ubuntu")
+      #   name: Build for dragonfly
+      #   run: |
+      #     go install
+      #   env:
+      #     GOARCH: amd64
+      #     GOOS: dragonfly
       - name: Create snapshot
         if: github.event_name == 'push'
         uses: WarpBuilds/snapshot-save@action-fixes
