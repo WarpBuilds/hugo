@@ -31,62 +31,62 @@ jobs:
           - "warp-ubuntu-2404-x64-32x"
     runs-on: ${{ matrix.os }}
     steps:
-      - if: contains(${{ matrix.os }}, "ubuntu")
-        name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
-        with:
-          # this might remove tools that are actually needed,
-          # if set to "true" but frees about 6 GB
-          tool-cache: false
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
+      # - if: contains(${{ matrix.os }}, "ubuntu")
+      #   name: Free Disk Space (Ubuntu)
+      #   uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+      #   with:
+      #     # this might remove tools that are actually needed,
+      #     # if set to "true" but frees about 6 GB
+      #     tool-cache: false
+      #     android: true
+      #     dotnet: true
+      #     haskell: true
+      #     large-packages: true
+      #     docker-images: true
+      #     swap-storage: true
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Install Go
-        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
-        with:
-          go-version: ${{ matrix.go-version }}
-          check-latest: true
-          cache: true
-          cache-dependency-path: |
-            **/go.sum
-            **/go.mod
-      - name: Install Ruby
-        uses: ruby/setup-ruby@a6e6f86333f0a2523ece813039b8b4be04560854 # v1.190.0
-        with:
-          ruby-version: "2.7"
-          bundler-cache: true #
-      - name: Install Python
-        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5.1.1
-        with:
-          python-version: "3.x"
-      - name: Install Mage
-        run: go install github.com/magefile/mage@v1.15.0
-      - name: Install asciidoctor
-        uses: reitzig/actions-asciidoctor@c642db5eedd1d729bb8c92034770d0b2f769eda6 # v2.0.2
-      - name: Install docutils
-        run: |
-          pip install docutils
-          rst2html --version
-      - if: contains(${{ matrix.os }}, "ubuntu")
-        name: Install pandoc on Linux
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y pandoc
-      - if: matrix.os == 'macos-latest'
-        run: |
-          brew install pandoc
-      - if: matrix.os == 'windows-latest'
-        run: |
-          choco install pandoc
-      - run: pandoc -v
-      - if: matrix.os == 'windows-latest'
-        run: |
-          choco install mingw
+      # - name: Install Go
+      #   uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
+      #   with:
+      #     go-version: ${{ matrix.go-version }}
+      #     check-latest: true
+      #     cache: true
+      #     cache-dependency-path: |
+      #       **/go.sum
+      #       **/go.mod
+      # - name: Install Ruby
+      #   uses: ruby/setup-ruby@a6e6f86333f0a2523ece813039b8b4be04560854 # v1.190.0
+      #   with:
+      #     ruby-version: "2.7"
+      #     bundler-cache: true #
+      # - name: Install Python
+      #   uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5.1.1
+      #   with:
+      #     python-version: "3.x"
+      # - name: Install Mage
+      #   run: go install github.com/magefile/mage@v1.15.0
+      # - name: Install asciidoctor
+      #   uses: reitzig/actions-asciidoctor@c642db5eedd1d729bb8c92034770d0b2f769eda6 # v2.0.2
+      # - name: Install docutils
+      #   run: |
+      #     pip install docutils
+      #     rst2html --version
+      # - if: contains(${{ matrix.os }}, "ubuntu")
+      #   name: Install pandoc on Linux
+      #   run: |
+      #     sudo apt-get update -y
+      #     sudo apt-get install -y pandoc
+      # - if: matrix.os == 'macos-latest'
+      #   run: |
+      #     brew install pandoc
+      # - if: matrix.os == 'windows-latest'
+      #   run: |
+      #     choco install pandoc
+      # - run: pandoc -v
+      # - if: matrix.os == 'windows-latest'
+      #   run: |
+      #     choco install mingw
       # - if: contains(${{ matrix.os }}, "ubuntu")
       #   name: Install dart-sass Linux
       #   run: |
